@@ -26,6 +26,9 @@ function App() {
   const [busquedaVentas, setBusquedaVentas] = useState('')
   const [categoriaVentas, setCategoriaVentas] = useState('')
 
+  const [metodoPago, setMetodoPago] = useState('efectivo')
+  const [montoRecibido, setMontoRecibido] = useState('')
+
   // === ESTADO DE IMPRESIÓN ===
   const [ticketAImprimir, setTicketAImprimir] = useState(null)
 
@@ -169,11 +172,18 @@ function App() {
     if (carrito.length === 0) return alert('Carrito vacío.')
     const hayCantidadesInvalidas = carrito.some(item => item.cantidad === '' || item.cantidad <= 0)
     if (hayCantidadesInvalidas) return alert('Revisa que todas las cantidades sean válidas.')
+
+    if (metodoPago === 'efectivo') {
+      const recibido = parseFloat(montoRecibido);
+      if (isNaN(recibido) || recibido < totalCarrito) {
+        return alert("El monto recibido en efectivo es menor al total de la venta.");
+      }
+    }
     if (!window.confirm(`¿Confirmar venta por S/ ${totalCarrito.toFixed(2)}?`)) return
 
     const { data: dataVenta, error: errorVenta } = await supabase
       .from('ventas')
-      .insert([{ total_pagado: totalCarrito, id_usuario: usuario.id_usuario }])
+      .insert([{ total_pagado: totalCarrito, id_usuario: usuario.id_usuario, metodo_pago: metodoPago }])
       .select()
 
     if (errorVenta) return alert('Error al guardar venta: ' + errorVenta.message)
@@ -208,6 +218,8 @@ function App() {
     })
 
     setCarrito([])
+    setMetodoPago("efectivo")
+    setMontoRecibido("")
     setBusquedaVentas('')
     obtenerProductos()
     if (usuario.id_rol === 1) obtenerVentas()
@@ -469,6 +481,10 @@ function App() {
               totalCarrito={totalCarrito}
               onCobrar={cobrarVenta}
               onAbrirMisVentas={abrirMisVentas}
+              metodoPago={metodoPago}
+              setMetodoPago={setMetodoPago}
+              montoRecibido={montoRecibido}
+              setMontoRecibido={setMontoRecibido}
             />
           )}
 
