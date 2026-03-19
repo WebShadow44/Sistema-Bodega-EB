@@ -30,6 +30,8 @@ function Catalogo({
     return coincideNombre && coincideCategoria
   })
 
+  const productosBajoStock = productos.filter(p => p.stock_actual <= 5)
+
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
       {/* FORMULARIO */}
@@ -109,6 +111,28 @@ function Catalogo({
       {/* LISTA DE PRODUCTOS */}
       <div className="w-full lg:w-2/3">
         <h3 className="text-2xl font-bold mb-4 text-gray-900">Catálogo Completo</h3>
+        {productosBajoStock.length > 0 && (
+          <div className="mb-6 bg-orange-50 border-l-4 border-orange-500 rounded-lg p-4 rounded-xl shadow-sm">
+            <div className='flex items center mb-2'>
+              <span className="text-orange-600 font-bold text-lg mr-2">Alerta de Stock Bajo</span>
+              <span className="bg-orange-200 text-orange-800 text-xs px-2 py-1 rounded-full font-bold">
+                {productosBajoStock.length} productos</span>
+            </div>
+            <p className="text-sm text-orange-700 mb-3">Los siguientes productos están a punto de agotarse. Considera llamar al proveedor:</p>
+            <div className="flex flex-wrap gap-2">
+              {productosBajoStock.map(p => (
+                <button
+                  key={p.id_producto}
+                  onClick={() => onSeleccionarEditar(p)}
+                  className="bg-white border border-orange-200 hover:border-orange-400 hover:shadow text-orange-800 text-xs px-3 py-1.5 rounded-lg shadow-sm font-medium transition cursor-pointer"
+                  title="Clic para editar stock"
+                >
+                  {p.nombre} <span className="text-red-600 font-bold ml-1">({p.stock_actual})</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <input
             type="text"

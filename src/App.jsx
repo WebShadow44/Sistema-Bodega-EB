@@ -462,6 +462,7 @@ function App() {
           setVista={setVista}
           onCerrarSesion={cerrarSesion}
           onObtenerVentas={obtenerVentas}
+          productos={productos}
         />
 
         <main className="max-w-7xl mx-auto p-6 md:p-8">
