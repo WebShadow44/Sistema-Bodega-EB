@@ -45,7 +45,7 @@ function Reportes({
             />
           </div>
           <button
-            onClick={onFiltrar}
+            onClick={() => onFiltrar()}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition"
           >
             Filtrar
@@ -86,7 +86,7 @@ function Reportes({
                   >
                     <td className="p-4 font-medium text-gray-900">#{v.id_venta}</td>
                     <td className="p-4 text-gray-600">
-                      {new Date(v.fecha_hora + 'Z').toLocaleString('es-PE', { dateStyle: 'short', timeStyle: 'short' })}
+                      {new Date(v.fecha_hora).toLocaleString('es-PE', { dateStyle: 'short', timeStyle: 'short' })}
                     </td>
                     <td className="p-4 text-gray-600">{v.usuarios?.nombre || 'Desconocido'}</td>
                     <td className="p-4 font-bold text-green-600">S/ {v.total_pagado.toFixed(2)}</td>

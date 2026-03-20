@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BellIcon } from '@heroicons/react/24/outline'
+import { BellIcon, ShoppingCartIcon, RectangleGroupIcon, UsersIcon, ChartPieIcon } from '@heroicons/react/24/outline'
 
 function Navbar({ usuario, vista, setVista, onCerrarSesion, onObtenerVentas, productos = [] }) {
   const [mostrarNotis, setMostrarNotis] = useState(false)
@@ -17,7 +17,8 @@ function Navbar({ usuario, vista, setVista, onCerrarSesion, onObtenerVentas, pro
             onClick={() => setVista('ventas')}
             className={`px-4 py-2 rounded-md text-sm font-medium transition whitespace-nowrap ${vista === 'ventas' ? 'bg-white text-blue-700 shadow' : 'text-gray-600 hover:text-gray-900'}`}
           >
-            Punto de Venta
+            <ShoppingCartIcon className="h-5 w-5" />
+            <span> Punto de Venta</span>
           </button>
           {usuario.id_rol === 1 && (
             <>
@@ -25,19 +26,22 @@ function Navbar({ usuario, vista, setVista, onCerrarSesion, onObtenerVentas, pro
                 onClick={() => setVista('catalogo')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition whitespace-nowrap ${vista === 'catalogo' ? 'bg-white text-blue-700 shadow' : 'text-gray-600 hover:text-gray-900'}`}
               >
-                Catálogo
+                <RectangleGroupIcon className="h-5 w-5" />
+                <span> Catálogo</span>
               </button>
               <button
                 onClick={() => setVista('usuarios')}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition whitespace-nowrap ${vista === 'usuarios' ? 'bg-white text-blue-700 shadow' : 'text-gray-600 hover:text-gray-900'}`}
               >
-                Usuarios
+                <UsersIcon className="h-5 w-5" />
+                <span> Usuarios</span>
               </button>
               <button
                 onClick={() => { setVista('reportes'); onObtenerVentas(); }}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition whitespace-nowrap ${vista === 'reportes' ? 'bg-white text-blue-700 shadow' : 'text-gray-600 hover:text-gray-900'}`}
               >
-                Reportes
+                <ChartPieIcon className="h-5 w-5" />
+                <span> Reportes</span>
               </button>
             </>
           )}

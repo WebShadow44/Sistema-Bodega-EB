@@ -84,56 +84,64 @@ function PuntoDeVenta({
       </div>
 
       {/* CARRITO / TICKET */}
-      <div className="w-full lg:w-1/3 bg-white p-6 rounded-2xl border border-gray-100 shadow-xl sticky top-24">
-        <h3 className="text-xl font-bold mb-5 flex items-center justify-between">
-          <span>Ticket Actual</span>
-          <span className="text-sm text-gray-500 font-normal">{carrito.length} ítems</span>
-        </h3>
+      <div className="w-full lg:w-1/3 bg-white p-6 rounded-2xl border border-gray-100 shadow-xl sticky top-24 flex flex-col max-h-[calc(100vh-6rem)]">
 
-        {carrito.length === 0 ? (
-          <div className="text-center py-10 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
-            <p className="text-gray-500">El ticket está vacío</p>
-          </div>
-        ) : (
-          <ul className="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
-            {carrito.map(item => (
-              <li key={item.id_producto} className="flex justify-between gap-3 border-b border-gray-100 pb-4 last:border-0 last:pb-0">
-                <div>
-                  <strong className="text-gray-900">{item.nombre}</strong>
-                  <div className="flex items-center gap-2 mt-1">
-                    <input
-                      type="number"
-                      min="1"
-                      max={item.stock_actual}
-                      value={item.cantidad}
-                      onChange={(e) => onActualizarCantidad(item.id_producto, e.target.value)}
-                      onBlur={(e) => {
-                        if (e.target.value === '' || parseInt(e.target.value) <= 0) {
-                          onActualizarCantidad(item.id_producto, '1')
-                        }
-                      }}
-                      className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-blue-200"
-                    />
-                    <span className="text-sm text-gray-600">x S/ {item.precio_venta.toFixed(2)}</span>
+        {/*ENCABEZADO*/}
+        <div className="flex-shrink-0 mb-4">
+          <h3 className="text-xl font-bold flex items-center justify-between">
+            <span>Ticket Actual</span>
+            <span className="text-sm text-gray-500 font-normal">{carrito.length} ítems</span>
+          </h3>
+        </div>
+
+        {/*LISTA DE PRODUCTOS*/}
+        <div className="flex-1 overflow-y-auto pr-2 min-h-0">
+          {carrito.length === 0 ? (
+            <div className="text-center py-10 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+              <p className="text-gray-500">El ticket está vacío</p>
+            </div>
+          ) : (
+            <ul className="space-y-4">
+              {carrito.map(item => (
+                <li key={item.id_producto} className="flex justify-between gap-3 border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                  <div>
+                    <strong className="text-gray-900">{item.nombre}</strong>
+                    <div className="flex items-center gap-2 mt-1">
+                      <input
+                        type="number"
+                        min="1"
+                        max={item.stock_actual}
+                        value={item.cantidad}
+                        onChange={(e) => onActualizarCantidad(item.id_producto, e.target.value)}
+                        onBlur={(e) => {
+                          if (e.target.value === '' || parseInt(e.target.value) <= 0) {
+                            onActualizarCantidad(item.id_producto, '1')
+                          }
+                        }}
+                        className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-blue-200"
+                      />
+                      <span className="text-sm text-gray-600">x S/ {item.precio_venta.toFixed(2)}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="text-right flex flex-col items-end justify-between">
-                  <strong className="text-lg text-gray-900">
-                    S/ {((parseInt(item.cantidad) || 0) * item.precio_venta).toFixed(2)}
-                  </strong>
-                  <button
-                    onClick={() => onQuitarDelCarrito(item.id_producto)}
-                    className="text-xs text-red-500 hover:text-red-700 hover:underline"
-                  >
-                    Quitar
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                  <div className="text-right flex flex-col items-end justify-between">
+                    <strong className="text-lg text-gray-900">
+                      S/ {((parseInt(item.cantidad) || 0) * item.precio_venta).toFixed(2)}
+                    </strong>
+                    <button
+                      onClick={() => onQuitarDelCarrito(item.id_producto)}
+                      className="text-xs text-red-500 hover:text-red-700 hover:underline"
+                    >
+                      Quitar
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-        <div className="border-t border-gray-200 mt-6 pt-6 space-y-4">
+        {/*ZONA DE PAGOS Y BOTÓN*/}
+        <div className="flex-shrink-0 border-t border-gray-200 mt-4 pt-4 space-y-4 bg-white">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Método de Pago:</label>
             <select

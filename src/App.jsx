@@ -359,8 +359,8 @@ function App() {
 
   // --- FUNCIONES DE REPORTES ---
   async function obtenerVentas(desdeParam, hastaParam) {
-    const desde = desdeParam !== undefined ? desdeParam : fechaInicio
-    const hasta = hastaParam !== undefined ? hastaParam : fechaFin
+    const desde = typeof desdeParam !== 'undefined' ? desdeParam : fechaInicio
+    const hasta = typeof hastaParam !== 'undefined' ? hastaParam : fechaFin
 
     let query = supabase
       .from('ventas')
@@ -369,6 +369,7 @@ function App() {
 
     if (desde) query = query.gte('fecha_hora', desde + 'T00:00:00')
     if (hasta) query = query.lte('fecha_hora', hasta + 'T23:59:59.999')
+
     if (!desde && !hasta) query = query.limit(50)
 
     const { data, error } = await query
@@ -405,7 +406,7 @@ function App() {
       setTicketAImprimir({
         id_venta: idVenta,
         cajero: nombreCajero,
-        fecha: new Date(fechaHoraStr + 'Z').toLocaleString('es-PE'),
+        fecha: new Date(fechaHoraStr).toLocaleString('es-PE'),
         items: itemsFormateados,
         total: totalPagado,
       })
