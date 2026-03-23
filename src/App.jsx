@@ -71,7 +71,7 @@ function App() {
     }
   }, [usuario])
 
-  // --- LÓGICA DE LOGIN ---
+  // === LÓGICA DE LOGIN ===
   async function intentarLogin(e) {
     e.preventDefault()
     setErrorLogin('')
@@ -105,7 +105,7 @@ function App() {
     setVista('ventas')
   }
 
-  // --- FUNCIONES DE BASE DE DATOS (LECTURA GENERAL) ---
+  // === FUNCIONES DE BASE DE DATOS (LECTURA GENERAL) ===
   async function obtenerCategorias() {
     const { data } = await supabase.from('categorias').select('*')
     if (data) {
@@ -122,7 +122,7 @@ function App() {
     if (data) setProductos(data)
   }
 
-  // --- FUNCIONES DEL PUNTO DE VENTA ---
+  // === FUNCIONES DEL PUNTO DE VENTA ===
   function agregarAlCarrito(producto) {
     if (producto.stock_actual <= 0) return alert('No hay stock disponible.')
     const itemExistente = carrito.find(item => item.id_producto === producto.id_producto)
@@ -225,7 +225,7 @@ function App() {
     if (usuario.id_rol === 1) obtenerVentas()
   }
 
-  // --- FUNCIONES DEL CATÁLOGO ---
+  // === FUNCIONES DEL CATÁLOGO ===
   async function guardarProducto(e) {
     e.preventDefault()
     const datos = {
@@ -276,7 +276,7 @@ function App() {
     setIdEditando(null)
   }
 
-  // --- FUNCIONES DE USUARIOS ---
+  // === FUNCIONES DE USUARIOS ===
   async function obtenerRoles() {
     const { data } = await supabase.from('roles').select('*')
     if (data) {
@@ -357,7 +357,7 @@ function App() {
     if (listaRoles.length > 0) setRolUsuario(listaRoles[0].id_rol.toString())
   }
 
-  // --- FUNCIONES DE REPORTES ---
+  // === FUNCIONES DE REPORTES ===
   async function obtenerVentas(desdeParam, hastaParam) {
     const desde = typeof desdeParam !== 'undefined' ? desdeParam : fechaInicio
     const hasta = typeof hastaParam !== 'undefined' ? hastaParam : fechaFin
@@ -413,7 +413,7 @@ function App() {
     }
   }
 
-  // --- FUNCIONES HISTORIAL CAJERO ---
+  // === FUNCIONES HISTORIAL CAJERO ===
   async function abrirMisVentas() {
     const { data } = await supabase
       .from('ventas')
@@ -426,9 +426,7 @@ function App() {
     setModalMisVentas(true)
   }
 
-  // ==========================================
-  //    RENDERIZADO
-  // ==========================================
+  //=== INTERFAZ ===
 
   if (!usuario) {
     return (
